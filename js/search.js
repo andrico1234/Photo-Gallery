@@ -12,6 +12,6 @@ $("#filter").keyup(function() {                  // Keyboard event keyUp()
       $(this).removeClass("hidden");             // Leave picture on page (remove-class())
       } else {                                   // If H isn't found
       $(this).addClass("hidden");                // Hide the pictures (addClass())
-    };
+    }
   });
 });

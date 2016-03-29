@@ -21,19 +21,27 @@ $(document).ready(function() {
 });
 
 function nextPhoto() {
-  var $newPhoto = $activePhoto.next().attr("href"); // Puts the destination of the sibling element into a variable
-  $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
-  $captionText = $activePhoto.next().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
-  $caption.text($captionText);                      // Uses the captionText variable to change the text of the caption.
-  $activePhoto = $activePhoto.next();               // Gets the attribute for the next sibling.
+  if ($activePhoto.next().attr('src') === "img/Photos/Thumbnails/Lion.png") {
+    console.log("error");
+  } else {
+    var $newPhoto = $activePhoto.next().attr("href"); // Puts the destination of the sibling element into a variable
+    $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
+    $captionText = $activePhoto.next().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
+    $caption.text($captionText);                      // Uses the captionText variable to change the text of the caption.
+    $activePhoto = $activePhoto.next();               // Gets the attribute for the next sibling.
+  }
 }
 
 function prevPhoto() {
-  var $newPhoto = $activePhoto.prev().attr("href"); // Puts the destination of the sibling element into a variable
-  $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
-  $captionText = $activePhoto.prev().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
-  $caption.text($captionText);
-  $activePhoto = $activePhoto.prev();
+  if ($activePhoto.prev().attr('src') == "") {
+    console.log("error");
+  } else {
+    var $newPhoto = $activePhoto.prev().attr("href"); // Puts the destination of the sibling element into a variable
+    $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
+    $captionText = $activePhoto.prev().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
+    $caption.text($captionText);
+    $activePhoto = $activePhoto.prev();
+  }
 }
 
 $("#rightArrow").click(function() {
@@ -98,6 +106,3 @@ $(document).keydown(function(k) {
     closeArrows();
   }
 });
-
-// Youtube functionality
-// Fix arrow functionality
