@@ -8,9 +8,7 @@ var $overlay2 = $("<div id='overlayTwo'></div>");
 var $youtubeOverlay = $('<div style="overflow:hidden;height:270px;width:480px;"><div id="youtube_canvas" style="height:270px;width:480px;"> <iframe style="height:270px;width:480px;border:0;" frameborder="0" src="https://www.youtube.com/embed/SMo3UmN0Hy8?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=1"></iframe> </div> <a class="youtube-embed-code" href="https://www.tubeembed.com" id="get-youtube-data">tubeembed</a> <style>#youtube_canvas img{max-width:none!important;background:none!important}</style> </div>');
 
 var $caption = $("<p id='captionText'></p>");                        // Creates a caption variable that a paragraph tag
-var $photoLink;
 var $activePhoto;
-var $captionText;
 
 function closeArrows() {
   $("#leftArrow, #rightArrow").hide();      // Creates a function to hide overlay images
@@ -26,7 +24,7 @@ function nextPhoto() {
   } else {
     var $newPhoto = $activePhoto.next().attr("href"); // Puts the destination of the sibling element into a variable
     $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
-    $captionText = $activePhoto.next().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
+    var $captionText = $activePhoto.next().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
     $caption.text($captionText);                      // Uses the captionText variable to change the text of the caption.
     $activePhoto = $activePhoto.next();               // Gets the attribute for the next sibling.
   }
@@ -38,7 +36,7 @@ function prevPhoto() {
   } else {
     var $newPhoto = $activePhoto.prev().attr("href"); // Puts the destination of the sibling element into a variable
     $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
-    $captionText = $activePhoto.prev().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
+    var $captionText = $activePhoto.prev().children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
     $caption.text($captionText);
     $activePhoto = $activePhoto.prev();
   }
@@ -85,10 +83,10 @@ $overlay2.click(function() {
 $(".photo-gallery a").click(function(event) {        // The code that runs when an image is clicked
   if ($(window).width() >= 480) {                     // In mobile mode, the overlay won't appear
     event.preventDefault();                            //  Prevents default behaviour for clicking the image
-    $photoLink = $(this).attr("href");                 // The variable stores the link destination
+    var $photoLink = $(this).attr("href");                 // The variable stores the link destination
     $image.attr("src", $photoLink);                    // Gives the image element the correct information
     $overlay.show();                                   // This shows the overlay
-    $captionText = $(this).children("img").attr("alt");   // Stores the img's alt attribute
+    var $captionText = $(this).children("img").attr("alt");   // Stores the img's alt attribute
     $caption.text($captionText);                       // The alt attribute has its text added to the caption variable
     $("#leftArrow, #rightArrow").show();
     $activePhoto = $(this);
