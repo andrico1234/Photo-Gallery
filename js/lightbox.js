@@ -56,6 +56,7 @@ function prevPhoto() {
     var $captionText;
     if ($photoIndex === 0) {
         $newPhoto = $activePhoto.parent().children().children("a").attr("href"); // Puts the destination of the sibling element into a variable
+        // all i need is for $activePhoto and $newPhoto to be the something for the last sibling
         $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
         $caption.hide();
         $image.hide();
