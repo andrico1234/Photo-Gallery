@@ -16,6 +16,11 @@
     z-index: 1;
 }
 
+ul li {
+		list-style: none;
+      list-style-position:inside;
+}
+
 .photo-gallery {
     max-width: 75%;
     margin: auto;
@@ -71,12 +76,21 @@ input[type=text] {
     margin-top: 20%;
 }
 
-#youtube_canvas {
-    display: block;
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    width: 80%;
     margin: auto;
+    margin-top: 15%;
+}
+.video-wrapper iframe {
     position: absolute;
-    top: 20%;
-    left: 30%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: solid 4px white;
 }
 
 #overlay p {
@@ -133,9 +147,10 @@ input[type=text] {
         border: solid 4px white;
     }
 
-    a:nth-of-type(3n+3) > img {
+    li:nth-of-type(3n+3) > a > img {
         margin-right: 0;
     }
+
 
     #filter {
         width: 300px;
@@ -162,15 +177,20 @@ input[type=text] {
         margin-top: 35%;
     }
 
+    #video {
+        cursor: pointer;
+    }
+
 }
 
 
 
 @media screen and (min-width: 768px) {
 
-    a:nth-of-type(3n+3) > img {
+    li:nth-of-type(3n+3) > a > img {
         margin-right: 5%;
     }
+
 
     .thumbnail {
         display: inline-block;
@@ -181,9 +201,10 @@ input[type=text] {
         padding-right: 0;
     }
 
-    a:nth-of-type(4n+4) > img {
+    li:nth-of-type(4n+4) > a > img {
         margin-right: 0;
     }
+
 
     .photo-gallery {
         width: 80%;
@@ -211,5 +232,15 @@ input[type=text] {
         margin-top: 25%;
         height: 70px;
     }
+
+    .video-wrapper {
+        padding-bottom: 48%; /* 16:9 */
+        width: 70%;
+    }
+
+    .video-wrapper iframe {
+        margin-top: 10%;
+    }
+
 
 }
