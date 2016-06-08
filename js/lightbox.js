@@ -2,21 +2,21 @@
  * Created by Home on 20/03/2016.
  */
 
-var $overlay = $("<div id='overlay'></div>");       // Creates the overlay
-var $image = $("<img id='overlayImage'>");          // Creates an image element for the overlay
-var $youtubeOverlay = $('<div class="video-wrapper"><iframe class="youtube-canvas" src="https://www.youtube.com/embed/SMo3UmN0Hy8" frameborder="0" allowfullscreen></iframe></div>');
+// Global Variables
 
-var $caption = $("<p id='captionText'></p>");                        // Creates a caption variable that a paragraph tag
+var $overlay = $("<div id='overlay'></div>");
+var $image = $("<img id='overlayImage'>");
+var $youtubeOverlay = $('<div class="video-wrapper"><iframe class="youtube-canvas" src="https://www.youtube.com/embed/SMo3UmN0Hy8" frameborder="0" allowfullscreen></iframe></div>');
+var $caption = $("<p id='captionText'></p>");
 var $activePhoto;
 var $photoIndex;
 
-function closeArrows() {
-    $("#leftArrow, #rightArrow").hide();      // Creates a function to hide overlay images
-}
 
-$(document).ready(function () {
-    closeArrows();                                    // Closes overlay images instantly
-});
+// Overlay Functions
+
+function closeArrows() {
+    $("#leftArrow, #rightArrow").hide();
+}
 
 function closeVideo() {
     var video = $(".youtube-canvas").attr("src");
@@ -24,22 +24,33 @@ function closeVideo() {
     $(".youtube-canvas").attr("src", video);
 }
 
+$(document).ready(function () {
+    closeArrows();
+    $overlay.append($image);
+    $overlay.append($caption);
+    $overlay.append($youtubeOverlay);
+    $("body").append($overlay);
+    $youtubeOverlay.hide();
+});
+
+// Moving between images LOOK AT PAGE 204 FOR IDEAS
+
 function nextPhoto() {
     var $newPhoto;
     var $captionText;
     if ($photoIndex === 11) {
-        $newPhoto = $activePhoto.parent().children().children("a").attr("href"); // Puts the destination of the sibling element into a variable
-        $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
         $caption.hide();
         $image.hide();
         $youtubeOverlay.show();
-        $activePhoto = $activePhoto.parent().children();
-    } else {
-        if ($youtubeOverlay.is(":visible")) {
+        $activePhoto = $activePhoto.next();
+    } else if ($youtubeOverlay.is(":visible")) {
             $youtubeOverlay.hide();
+        $newPhoto = $activePhoto.parent().children().children("a").attr("href");
+        $image.attr("src", $newPhoto);
             $caption.show();
             $image.show();
-        }
+            $activePhoto = $activePhoto.parent().children();
+        } else {
         $newPhoto = $activePhoto.next().children("a").attr("href");
         $image.attr("src", $newPhoto);
         $captionText = $activePhoto.next().children("a").children("img").attr("alt");
@@ -49,15 +60,13 @@ function nextPhoto() {
     $photoIndex = $activePhoto.index();
 }
 
-// i want to traverse the DOM. 
-
 function prevPhoto() {
     var $newPhoto;
     var $captionText;
     if ($photoIndex === 0) {
-        $newPhoto = $activePhoto.parent().children().children("a").attr("href"); // Puts the destination of the sibling element into a variable
+        $newPhoto = $activePhoto.parent().children().children("a").attr("href");
         // all i need is for $activePhoto and $newPhoto to be the something for the last sibling
-        $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
+        $image.attr("src", $newPhoto);
         $caption.hide();
         $image.hide();
         $youtubeOverlay.show();
@@ -78,19 +87,6 @@ function prevPhoto() {
     console.log($photoIndex);
 }
 
-// function prevPhoto() {
-// //   if ($activePhoto.prev().attr('src') == "") {
-// //     console.log("error");
-// //   } else {
-//     var $newPhoto = $activePhoto.prev().children("a").attr("href"); // Puts the destination of the sibling element into a variable
-//     $image.attr("src", $newPhoto);                    // Updates the image with the source of the new photo.
-//     var $captionText = $activePhoto.prev().children("a").children("img").attr("alt");   // Gets the alt attribute from the sibling's child's alt's attribute.
-//     $caption.text($captionText);
-//     $activePhoto = $activePhoto.prev();
-// //   }
-// }
-
-// if child of li = 11, then the next picture will be given the information of child li = 0.
 
 $("#rightArrow").click(function () {
     nextPhoto();
@@ -112,15 +108,11 @@ $(document).keydown(function (k) {
     }
 });
 
-$overlay.append($image);                             // Appends Image to the overlay
-$overlay.append($caption);                           // Append caption to overlay
-$overlay.append($youtubeOverlay);
-$("body").append($overlay);                          // Attaches the overlay to the DOM
 
-$youtubeOverlay.hide();
+// Opening a picture in the gallery
 
-$(".photo-gallery-list li").click(function (event) {        // The code that runs when an image is clicked
-    if ($(window).width() >= 480) {                     // In mobile mode, the overlay won't appear
+$(".photo-gallery-list li").click(function (event) {
+    if ($(window).width() >= 480) {
         $overlay.show();
         $("#leftArrow, #rightArrow").show();
         if ($(this).attr("id") === "video") {
@@ -128,14 +120,14 @@ $(".photo-gallery-list li").click(function (event) {        // The code that run
             $image.hide();
             $youtubeOverlay.show();
         } else {
-            event.preventDefault();                            //  Prevents default behaviour for clicking the image
+            event.preventDefault();
             $caption.show();
             $image.show();
             $youtubeOverlay.hide();
-            var $photoLink = $(this).children("a").attr("href");                 // The variable stores the link destination
-            $image.attr("src", $photoLink);                    // Gives the image element the correct information
-            var $captionText = $(this).children("a").children("img").attr("alt");   // Stores the img's alt attribute
-            $caption.text($captionText);                       // The alt attribute has its text added to the caption variable
+            var $photoLink = $(this).children("a").attr("href");
+            $image.attr("src", $photoLink);
+            var $captionText = $(this).children("a").children("img").attr("alt");
+            $caption.text($captionText);
         }
         $activePhoto = $(this);
         console.log($activePhoto);
@@ -143,14 +135,16 @@ $(".photo-gallery-list li").click(function (event) {        // The code that run
     }
 });
 
-$overlay.click(function () {                       // When the cross is clicked or esc is pressed...
-    $overlay.hide();                                   // ... the overlay disappears
+// Closing the lightbox
+
+$overlay.click(function () {
+    $overlay.hide();
     closeVideo();
     closeArrows();
 });
 
 $(document).keydown(function (k) {
-    if (k.keyCode == 27) {                              // This function closes the overlay when the 'esc' key is pressed.
+    if (k.keyCode == 27) {
         $overlay.hide();
         closeVideo();
         closeArrows();
